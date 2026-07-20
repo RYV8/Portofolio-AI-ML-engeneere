@@ -186,7 +186,7 @@ export default function Projects() {
           transition={{ duration: 0.4 }}
           className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
         >
-          03. Projects
+          Projects
         </motion.p>
 
         <motion.h2

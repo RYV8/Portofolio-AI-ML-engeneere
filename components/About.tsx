@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, Mail, Github } from 'lucide-react';
 
@@ -32,7 +33,7 @@ export default function About() {
           transition={{ duration: 0.4 }}
           className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
         >
-          01. About me
+          About me
         </motion.p>
 
         <motion.h2
@@ -56,26 +57,19 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center lg:items-start gap-8"
           >
-            {/* Avatar */}
+            {/* Avatar — real photo */}
             <div className="relative group">
-              <div
-                className="w-56 h-56 rounded-full flex items-center justify-center text-5xl font-bold font-display text-black select-none transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(245,158,11,0.45)]"
-                style={{
-                  background: 'conic-gradient(from 135deg, #F59E0B 0%, #FCD34D 35%, #0A0A0A 50%, #111111 65%, #F59E0B 100%)',
-                }}
-              >
-                <span className="bg-clip-text"
-                  style={{
-                    background: 'linear-gradient(135deg,#F59E0B,#FCD34D)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  RYV
-                </span>
+              {/* Amber ring */}
+              <div className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-amber-400/60 via-amber-400/10 to-transparent group-hover:from-amber-400/80 transition-all duration-500" />
+              <div className="relative w-56 h-56 rounded-full overflow-hidden border-2 border-amber-400/30 group-hover:border-amber-400/60 transition-colors duration-500 group-hover:shadow-[0_0_40px_rgba(245,158,11,0.35)]">
+                <Image
+                  src="/avatar.jpg"
+                  alt="Romaric VOSSANOU"
+                  fill
+                  className="object-cover object-top"
+                  priority
+                />
               </div>
-              <div className="absolute -inset-2 rounded-full border border-amber-400/20 group-hover:border-amber-400/50 transition-colors duration-500 pointer-events-none" />
             </div>
 
             {/* Contact links */}

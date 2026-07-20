@@ -4,33 +4,33 @@ import { motion } from 'framer-motion';
 
 const CATEGORIES = [
   {
-    title: 'Machine Learning',
     icon: '🧠',
+    title: 'Machine Learning',
     skills: ['XGBoost', 'LightGBM', 'scikit-learn', 'CatBoost', 'SHAP', 'Optuna'],
   },
   {
-    title: 'Deep Learning',
     icon: '⚡',
+    title: 'Deep Learning',
     skills: ['PyTorch', 'torchvision', 'Custom CNNs', 'Transfer Learning', 'Hugging Face'],
   },
   {
-    title: 'LLM & Agents',
     icon: '🤖',
+    title: 'LLM & Agents',
     skills: ['Ollama', 'LangChain', 'RAG Pipelines', 'Prompt Engineering', 'Tool Calling'],
   },
   {
-    title: 'Data Engineering',
     icon: '🔧',
+    title: 'Data Engineering',
     skills: ['Pandas', 'NumPy', 'Polars', 'SQLite', 'Feature Engineering', 'ETL Pipelines'],
   },
   {
-    title: 'MLOps & Deployment',
     icon: '🚀',
+    title: 'MLOps & Deployment',
     skills: ['FastAPI', 'Docker', 'Git / GitHub', 'CI/CD', 'Jupyter', 'Weights & Biases'],
   },
   {
-    title: 'Visualization & BI',
     icon: '📊',
+    title: 'Visualization & BI',
     skills: ['Matplotlib', 'Seaborn', 'Plotly', 'Streamlit', 'Power BI Basics'],
   },
 ];
@@ -42,7 +42,7 @@ const container = {
 
 const itemAnim = {
   hidden: { opacity: 0, y: 20 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
 };
 
 export default function Skills() {
@@ -57,7 +57,7 @@ export default function Skills() {
           transition={{ duration: 0.4 }}
           className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
         >
-          02. Skills
+          Skills
         </motion.p>
 
         <motion.h2
@@ -82,18 +82,14 @@ export default function Skills() {
               key={cat.title}
               variants={itemAnim}
               className="group relative rounded-xl border border-white/5 bg-[#111111] p-6 overflow-hidden transition-all duration-300 hover:-translate-y-1"
-              style={{ cursor: 'default' }}
             >
               {/* Sweep border bottom on hover */}
-              <span
-                className="absolute bottom-0 left-0 h-[2px] w-0 bg-amber-400 group-hover:w-full transition-all duration-500 rounded-full"
-              />
+              <span className="absolute bottom-0 left-0 h-[2px] w-0 bg-amber-400 group-hover:w-full transition-all duration-500 rounded-full" />
               {/* Gradient overlay on hover */}
               <span
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                 style={{
-                  background:
-                    'linear-gradient(135deg, rgba(245,158,11,0.04) 0%, transparent 60%)',
+                  background: 'linear-gradient(135deg, rgba(245,158,11,0.04) 0%, transparent 60%)',
                 }}
               />
 

@@ -48,7 +48,7 @@ export default function Contact() {
           transition={{ duration: 0.4 }}
           className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
         >
-          04. Contact
+          Contact
         </motion.p>
 
         <motion.h2
