@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Github } from 'lucide-react';
+import { Logo } from './Logo';
 
 const LINKS = [
   { label: 'About',    href: '#about'    },
@@ -33,9 +34,10 @@ export default function Navbar() {
         {/* Logo */}
         <a
           href="#hero"
-          className="font-mono text-sm font-bold tracking-widest text-amber-400 hover:text-amber-300 transition-colors uppercase"
+          className="text-amber-400 hover:text-amber-300 transition-colors"
+          aria-label="Home"
         >
-          RYV8<span className="text-white/30">_</span>
+          <Logo size={36} />
         </a>
 
         {/* Desktop links */}
