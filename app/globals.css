@@ -74,6 +74,25 @@ body {
   box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(217, 119, 6, 0.12);
 }
 
+/* Floating gradient orbs */
+.orb-glow {
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.04) 50%, transparent 70%);
+  animation: orbFloat 8s ease-in-out infinite;
+  filter: blur(40px);
+}
+
+.orb-glow-secondary {
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.10) 0%, rgba(251, 191, 36, 0.03) 50%, transparent 70%);
+  animation: orbFloat 11s ease-in-out infinite reverse;
+  filter: blur(50px);
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  33%       { transform: translateY(-18px) scale(1.04); }
+  66%       { transform: translateY(10px) scale(0.97); }
+}
+
 /* Fade-in animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }

@@ -5,12 +5,14 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-accent selection:text-white font-sans">
+    <main className="min-h-screen bg-background text-foreground selection:bg-accent selection:text-white">
+      <ScrollProgress />
       <Navbar />
-      <div className="pt-24 pb-12 max-w-7xl mx-auto px-6 md:px-12 lg:px-24 grid grid-cols-1 gap-y-32">
+      <div className="pt-20">
         <Hero />
         <About />
         <Skills />

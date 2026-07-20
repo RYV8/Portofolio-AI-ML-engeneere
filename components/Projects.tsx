@@ -76,7 +76,6 @@ export default function Projects() {
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5 }}
       >
-        <p className="font-mono text-accent text-sm mb-3">03. What I've built</p>
         <h2 className="text-3xl font-bold tracking-tight mb-16 text-foreground">
           Featured Projects
         </h2>

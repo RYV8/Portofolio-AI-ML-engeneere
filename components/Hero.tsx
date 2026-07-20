@@ -41,11 +41,15 @@ export default function Hero() {
     <section className="min-h-[92vh] flex flex-col justify-center relative px-6 md:px-12 max-w-5xl mx-auto overflow-hidden">
 
       {/* Dot grid background */}
-      <div className="hero-grid absolute inset-0 -z-10 opacity-40 pointer-events-none" />
+      <div className="hero-grid absolute inset-0 -z-10 opacity-30 pointer-events-none" />
+
+      {/* Floating gradient orb */}
+      <div className="absolute -z-10 pointer-events-none top-1/3 -right-24 w-[420px] h-[420px] rounded-full orb-glow" />
+      <div className="absolute -z-10 pointer-events-none -bottom-16 -left-16 w-[280px] h-[280px] rounded-full orb-glow-secondary" />
 
       {/* Radial fade over the grid */}
       <div className="absolute inset-0 -z-10 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, #0C0A09 80%)' }}
+        style={{ background: 'radial-gradient(ellipse 90% 70% at 50% 50%, transparent 20%, #0C0A09 75%)' }}
       />
 
       <motion.div

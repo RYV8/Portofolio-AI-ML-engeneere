@@ -76,7 +76,6 @@ export default function Navbar() {
                   href={`#${item.toLowerCase()}`}
                   className="text-muted-foreground hover:text-accent relative group py-2 transition-colors duration-200"
                 >
-                  <span className="text-accent/60 mr-1">{String(index + 1).padStart(2, '0')}.</span>
                   {item}
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
                 </a>
@@ -143,7 +142,6 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="font-mono text-2xl text-muted-foreground hover:text-accent transition-colors"
               >
-                <span className="text-accent text-base mr-2">{String(index + 1).padStart(2, '0')}.</span>
                 {item}
               </a>
             ))}

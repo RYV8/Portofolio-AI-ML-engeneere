@@ -47,7 +47,6 @@ export default function Skills() {
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5 }}
       >
-        <p className="font-mono text-accent text-sm mb-2">02. What I work with</p>
         <h2 className="text-3xl font-bold tracking-tight mb-16 text-foreground">
           Technical Skills
         </h2>
