@@ -9,16 +9,14 @@ import ScrollProgress from "@/components/ScrollProgress";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-accent selection:text-white">
+    <main className="min-h-screen bg-[#0A0A0A] text-foreground">
       <ScrollProgress />
       <Navbar />
-      <div className="pt-20">
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </div>
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Contact />
       <Footer />
     </main>
   );

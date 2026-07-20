@@ -1,183 +1,279 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { ExternalLink, Github, FolderGit2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Github } from 'lucide-react';
 
-const projects = [
+/* ─── Thematic SVG covers ─── */
+function FlowLines({ accent = '#F59E0B' }) {
+  return (
+    <svg viewBox="0 0 400 220" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="fl-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stopColor="#111111" />
+          <stop offset="100%" stopColor="#1A1A1A" />
+        </linearGradient>
+        <linearGradient id="fl-line" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor={accent} stopOpacity="0"   />
+          <stop offset="50%"  stopColor={accent} stopOpacity="0.9" />
+          <stop offset="100%" stopColor={accent} stopOpacity="0"   />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="220" fill="url(#fl-bg)" />
+      {[30,60,90,120,150,180].map((y, i) => (
+        <path
+          key={y}
+          d={`M-20,${y} Q${100 + i*10},${y-20} 200,${y} Q${300 - i*8},${y+20} 420,${y}`}
+          fill="none"
+          stroke="url(#fl-line)"
+          strokeWidth="1"
+          opacity={0.5 + i * 0.07}
+        />
+      ))}
+      <circle cx="200" cy="110" r="28" fill={accent} fillOpacity="0.08" />
+      <circle cx="200" cy="110" r="12" fill={accent} fillOpacity="0.18" />
+      <circle cx="200" cy="110" r="4"  fill={accent} fillOpacity="0.9"  />
+    </svg>
+  );
+}
+
+function ClusterDots({ accent = '#F59E0B' }) {
+  const dots = [
+    [80,60],[130,80],[60,110],[100,140],[155,120],[200,70],[250,90],[300,60],[280,130],[340,100],
+    [180,160],[230,150],[310,160],[350,50],[90,180],[240,40],
+  ];
+  const edges = [[0,1],[0,2],[1,3],[1,4],[2,3],[4,5],[5,6],[6,7],[6,8],[7,9],[8,9],[4,10],[10,11],[11,12],[9,12]];
+  return (
+    <svg viewBox="0 0 400 220" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#111111" />
+      {edges.map(([a,b],i) => (
+        <line key={i}
+          x1={dots[a][0]} y1={dots[a][1]} x2={dots[b][0]} y2={dots[b][1]}
+          stroke={accent} strokeOpacity="0.18" strokeWidth="1"
+        />
+      ))}
+      {dots.map(([x,y], i) => (
+        <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 5 : 3}
+          fill={accent} fillOpacity={i % 3 === 0 ? 0.85 : 0.45}
+        />
+      ))}
+    </svg>
+  );
+}
+
+function NeuralGrid({ accent = '#F59E0B' }) {
+  const cols = 5, rows = 3;
+  const w = 400 / (cols + 1), h = 220 / (rows + 1);
+  const nodes = Array.from({ length: cols * rows }, (_, i) => ({
+    x: ((i % cols) + 1) * w,
+    y: (Math.floor(i / cols) + 1) * h,
+  }));
+  return (
+    <svg viewBox="0 0 400 220" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#0F0F0F" />
+      {/* Layer connections */}
+      {nodes.slice(0, cols).map((n1) =>
+        nodes.slice(cols, cols * 2).map((n2, j) => (
+          <line key={`l1-${n1.x}-${j}`}
+            x1={n1.x} y1={n1.y} x2={n2.x} y2={n2.y}
+            stroke={accent} strokeOpacity="0.08" strokeWidth="0.8"
+          />
+        ))
+      )}
+      {nodes.slice(cols, cols * 2).map((n1) =>
+        nodes.slice(cols * 2).map((n2, j) => (
+          <line key={`l2-${n1.x}-${j}`}
+            x1={n1.x} y1={n1.y} x2={n2.x} y2={n2.y}
+            stroke={accent} strokeOpacity="0.08" strokeWidth="0.8"
+          />
+        ))
+      )}
+      {nodes.map((n, i) => (
+        <circle key={i} cx={n.x} cy={n.y} r="6"
+          fill={accent}
+          fillOpacity={i % 5 === 0 ? 0.9 : 0.35}
+          stroke={accent}
+          strokeOpacity="0.3"
+          strokeWidth="1"
+        />
+      ))}
+    </svg>
+  );
+}
+
+function BarChart({ accent = '#F59E0B' }) {
+  const bars = [0.4, 0.65, 0.85, 0.55, 0.92, 0.70, 0.48, 0.78];
+  return (
+    <svg viewBox="0 0 400 220" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#111111" />
+      {bars.map((h, i) => {
+        const bh = h * 150;
+        const x = 30 + i * 44;
+        return (
+          <g key={i}>
+            <rect x={x} y={200 - bh} width="28" height={bh} rx="3"
+              fill={accent} fillOpacity={0.12 + i * 0.04}
+            />
+            <rect x={x} y={200 - bh} width="28" height="3" rx="1.5"
+              fill={accent} fillOpacity="0.9"
+            />
+          </g>
+        );
+      })}
+      <line x1="20" y1="200" x2="390" y2="200" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+    </svg>
+  );
+}
+
+/* ─── Projects data ─── */
+const PROJECTS = [
   {
-    title: "Telecom Upsell Propensity Model",
-    tagline: "Identify customers ready to upgrade — before they churn",
+    title: 'Telecom Upsell Propensity Model',
     description:
-      "End-to-end ML pipeline that ranks telecom customers by their probability to accept a plan upgrade, reducing churn risk while increasing ARPU. Covers the full lifecycle from feature engineering to business scoring and model explainability.",
-    highlights: [
-      "XGBoost & LightGBM with Optuna hyperparameter tuning",
-      "SMOTE for class imbalance handling",
-      "SHAP waterfall plots for business explainability",
-      "Customer segmentation and propensity scoring output",
-    ],
-    tech: ["Python", "XGBoost", "LightGBM", "Optuna", "SHAP", "scikit-learn", "Pandas"],
-    github: "https://github.com/RYV8/Telecom-Upsell-Propensity-Model",
-    live: null,
+      'End-to-end binary classification pipeline predicting which telecom customers are most likely to upgrade. Includes EDA, feature engineering, XGBoost + SHAP explainability, and a FastAPI serving layer.',
+    tags: ['XGBoost', 'SHAP', 'FastAPI', 'Scikit-learn', 'Pandas'],
+    github: 'https://github.com/RYV8/Telecom-Upsell-Propensity-Model',
+    cover: FlowLines,
+    highlight: 'ROC-AUC 0.87',
   },
   {
-    title: "Movie Recommendation System",
-    tagline: "Personalized recommendations via dual-clustering ML + FastAPI",
+    title: 'Movie Recommendation System',
     description:
-      "Collaborative filtering system using dual K-Means clustering on both users and movies. Matches a user's preference cluster to movies favored by similar users. Served through a FastAPI REST API with a frontend interface.",
-    highlights: [
-      "Dual K-Means clustering on users and movies",
-      "REST API built with FastAPI for real-time recommendations",
-      "Trained on MovieLens data: ratings, genome scores, and tags",
-      "Clean domain architecture: services, repositories, schemas",
-    ],
-    tech: ["Python", "scikit-learn", "FastAPI", "Pandas", "KMeans", "REST API"],
-    github: "https://github.com/RYV8/Recommendation_syteme",
-    live: null,
+      'Collaborative filtering engine using K-Means clustering on user behavior data. Exposed via REST API so any front-end can request personalized movie lists in real time.',
+    tags: ['K-Means', 'Collaborative Filtering', 'FastAPI', 'NumPy'],
+    github: 'https://github.com/RYV8/Movie-Recommendation-System',
+    cover: ClusterDots,
+    highlight: 'Clustering + REST API',
   },
   {
-    title: "Desktop Agent — LLM File System Assistant",
-    tagline: "Control your file system with natural language",
+    title: 'Brain Tumor MRI Detector',
     description:
-      "Local AI agent powered by Ollama (Qwen2.5-Coder) that autonomously manages your Linux desktop through a ReAct loop. Given a plain-text task, it plans and executes file operations across 13 built-in tools — no shell commands needed from the user.",
-    highlights: [
-      "ReAct loop: Thought → Action (JSON) → Observation",
-      "13 tools: create, move, copy, rename, search, read files, launch apps",
-      "Fully local — powered by Ollama, no data leaves the machine",
-      "Secure path validation on every tool call",
-    ],
-    tech: ["Python", "Ollama", "Qwen2.5-Coder", "ReAct", "LLM Agents"],
-    github: "https://github.com/RYV8/Desktop-Agent",
-    live: null,
+      'Custom CNN trained on 3,000+ MRI scans to classify brain tumor vs. healthy tissue. Uses PyTorch, Optuna hyperparameter search, and achieves 96%+ validation accuracy.',
+    tags: ['PyTorch', 'CNN', 'Optuna', 'torchvision', 'Medical Imaging'],
+    github: 'https://github.com/RYV8/Brain-Disease-Detector',
+    cover: NeuralGrid,
+    highlight: '96%+ Accuracy',
   },
   {
-    title: "Brain Tumor Detection",
-    tagline: "MRI classification with automated hyperparameter tuning",
+    title: 'Desktop AI Agent',
     description:
-      "Custom PyTorch CNN trained on 12K brain MRI images to classify tumor types. Uses Optuna to automatically search the best training configuration — batch size, learning rate, and DataLoader settings — without manual trial-and-error.",
-    highlights: [
-      "Custom CNN: 3→10→50→100→150 channels, MaxPool, FC head",
-      "Optuna study over batch_size, lr, num_workers, pin_memory",
-      "Stratified 70/15/15 train/val/test split",
-      "Training augmentation: flip, rotation, normalization",
-    ],
-    tech: ["Python", "PyTorch", "Optuna", "torchvision", "kagglehub", "Google Colab"],
-    github: "https://github.com/RYV8/Brain-Deasese-Detector",
-    live: "https://colab.research.google.com/github/RYV8/Brain-Deasese-Detector/blob/main/brain_tumor_detection.ipynb",
-    liveLabel: "Open in Colab",
+      'Local LLM-powered desktop automation agent that can execute shell commands, manage files, and interact with apps — all via natural language instructions using Ollama.',
+    tags: ['Ollama', 'LangChain', 'Python', 'Tool Calling', 'Automation'],
+    github: 'https://github.com/RYV8/Desktop-Agent',
+    cover: BarChart,
+    highlight: 'Local LLM Automation',
   },
 ];
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.14 } },
+};
+
+const card = {
+  hidden: { opacity: 0, y: 32 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' as const } },
+};
+
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 px-6 md:px-12 max-w-5xl mx-auto border-t border-border/50">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold tracking-tight mb-16 text-foreground">
-          Featured Projects
-        </h2>
+    <section id="projects" className="py-28 depth-elevated">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section label */}
+        <motion.p
+          initial={{ opacity: 0, x: -12 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
+        >
+          03. Projects
+        </motion.p>
 
-        <div className="grid grid-cols-1 gap-16">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group relative grid md:grid-cols-12 gap-8 items-start"
-            >
-              {/* Content */}
-              <div className={`md:col-span-7 space-y-5 z-10 ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
-                <div className="space-y-1">
-                  <p className="text-accent font-mono text-xs uppercase tracking-widest">Featured Project</p>
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl sm:text-5xl font-bold font-display mb-16"
+        >
+          Systems I've Built
+        </motion.h2>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid sm:grid-cols-2 gap-8"
+        >
+          {PROJECTS.map((project) => {
+            const Cover = project.cover;
+            return (
+              <motion.article
+                key={project.title}
+                variants={card}
+                className="group relative bg-[#111111] rounded-2xl border border-white/5 overflow-hidden hover:border-amber-400/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40"
+              >
+                {/* SVG visual cover */}
+                <div className="relative h-48 overflow-hidden">
+                  <Cover />
+                  {/* Highlight badge */}
+                  <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full font-mono text-xs text-amber-400 bg-black/60 border border-amber-400/30 backdrop-blur-sm">
+                    {project.highlight}
+                  </span>
+                </div>
+
+                {/* Description card — slight overlap */}
+                <div className="relative z-10 -mt-4 mx-4 rounded-xl bg-[#1A1A1A] border border-white/5 p-5 group-hover:border-amber-400/12 transition-colors duration-300">
+                  <h3 className="text-white font-semibold font-display text-lg mb-2 leading-tight">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm font-mono">{project.tagline}</p>
-                </div>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
 
-                <div className="p-5 rounded-xl bg-muted border border-border text-muted-foreground shadow-md group-hover:border-accent/20 transition-colors duration-300">
-                  <p className="text-sm leading-relaxed mb-4">{project.description}</p>
-                  <ul className="space-y-1.5 text-sm">
-                    {project.highlights.map((h, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-accent mt-0.5 shrink-0">▹</span>
-                        <span>{h}</span>
-                      </li>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 text-xs font-mono rounded bg-white/5 text-slate-400 border border-white/5"
+                      >
+                        {tag}
+                      </span>
                     ))}
-                  </ul>
-                </div>
+                  </div>
 
-                <ul className="flex flex-wrap gap-2 font-mono text-xs text-muted-foreground">
-                  {project.tech.map((t, i) => (
-                    <li key={i} className="px-3 py-1 rounded-full bg-background border border-border">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center gap-4 text-muted-foreground">
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-accent transition-colors flex items-center gap-1.5 text-sm"
-                    aria-label="GitHub"
-                  >
-                    <Github size={18} />
-                    <span className="font-mono">Code</span>
-                  </a>
-                  {project.live && (
+                  {/* Links */}
+                  <div className="flex gap-3">
                     <a
-                      href={project.live}
+                      href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-accent transition-colors flex items-center gap-1.5 text-sm"
-                      aria-label="Live demo"
+                      className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-amber-400 transition-colors"
                     >
-                      <ExternalLink size={18} />
-                      <span className="font-mono">{(project as { liveLabel?: string }).liveLabel ?? 'Demo'}</span>
+                      <Github size={13} />
+                      GitHub
                     </a>
-                  )}
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-amber-400 transition-colors"
+                    >
+                      <ExternalLink size={13} />
+                      View project
+                    </a>
+                  </div>
                 </div>
-              </div>
 
-              {/* Visual panel */}
-              <div
-                className={`hidden md:flex md:col-span-5 h-full min-h-[260px] items-center justify-center rounded-xl bg-muted/20 border border-border/40 group-hover:border-accent/40 group-hover:bg-muted/40 transition-all duration-300 overflow-hidden card-glow ${index % 2 !== 0 ? 'md:order-1' : ''}`}
-              >
-                <div className="flex flex-col items-center gap-4 p-8 opacity-40 group-hover:opacity-70 transition-opacity">
-                  <FolderGit2 size={48} className="text-accent" />
-                  <span className="font-mono text-xs text-muted-foreground text-center">{project.title}</span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* GitHub CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-20 text-center"
-        >
-          <a
-            href="https://github.com/RYV8"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 font-mono text-sm text-muted-foreground hover:text-accent transition-colors border border-border hover:border-accent px-6 py-3 rounded-md"
-          >
-            <Github size={16} />
-            View all projects on GitHub
-          </a>
+                {/* Bottom padding */}
+                <div className="h-5" />
+              </motion.article>
+            );
+          })}
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

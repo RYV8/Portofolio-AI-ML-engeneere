@@ -4,28 +4,31 @@
 @theme {
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --color-accent-secondary: var(--accent-secondary);
 }
 
 :root {
-  --background: #0C0A09;
-  --foreground: #FAFAF9;
-  --muted: #1C1917;
-  --muted-foreground: #A8A29E;
-  --border: #292524;
-  --accent: #D97706;
-  --accent-secondary: #FBBF24;
+  /* 3-level depth system */
+  --background:   #0A0A0A;   /* base layer  — hero, skills, contact, footer */
+  --elevated:     #111111;   /* elevated    — about, projects, cards        */
+  --surface:      #1A1A1A;   /* surface     — inputs, chips, inner cards    */
+
+  /* Aliases used by Tailwind theme */
+  --foreground:        #F8FAFC;   /* slate-50 */
+  --muted:             #111111;
+  --muted-foreground:  #94A3B8;   /* slate-400 */
+  --border:            rgba(255,255,255,0.07);
+  --border-hover:      rgba(245,158,11,0.30);
+  --accent:            #F59E0B;   /* amber-400 — single accent */
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--background);
@@ -33,72 +36,61 @@ body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: var(--background); }
+::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-::selection {
-  background-color: var(--accent);
-  color: #ffffff;
-}
+::selection { background-color: rgba(245,158,11,0.30); color: #fff; }
 
-/* Dot grid background pattern for hero */
+/* ── Dot grid (hero) ── */
 .hero-grid {
-  background-image: radial-gradient(circle, #292524 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
-/* Gradient text utility */
+/* ── Amber bloom ── */
+.amber-bloom {
+  position: absolute;
+  border-radius: 50%;
+  background: #F59E0B;
+  mix-blend-mode: screen;
+  filter: blur(200px);
+  pointer-events: none;
+}
+
+/* ── Glow box-shadow utilities ── */
+.glow-sm  { box-shadow: 0 0 20px rgba(245,158,11,0.20); }
+.glow-md  { box-shadow: 0 0 30px rgba(245,158,11,0.30); }
+.glow-lg  { box-shadow: 0 0 40px rgba(245,158,11,0.40); }
+
+/* ── Section depth ── */
+.depth-elevated { background-color: var(--elevated); }
+.depth-surface  { background-color: var(--surface);  }
+
+/* ── Gradient text (name) ── */
 .gradient-text {
-  background: linear-gradient(135deg, #FAFAF9 0%, #D97706 60%, #FBBF24 100%);
+  background: linear-gradient(135deg, #F8FAFC 0%, #F59E0B 55%, #FCD34D 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glow effect for project cards */
-.card-glow:hover {
-  box-shadow: 0 0 0 1px var(--accent), 0 8px 32px rgba(217, 119, 6, 0.12);
+/* ── Card glow on hover ── */
+.card-hover:hover {
+  border-color: rgba(245,158,11,0.25) !important;
+  box-shadow: 0 0 0 1px rgba(245,158,11,0.12), 0 8px 32px rgba(245,158,11,0.08);
 }
 
-/* Floating gradient orbs */
-.orb-glow {
-  background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.04) 50%, transparent 70%);
-  animation: orbFloat 8s ease-in-out infinite;
-  filter: blur(40px);
-}
-
-.orb-glow-secondary {
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.10) 0%, rgba(251, 191, 36, 0.03) 50%, transparent 70%);
-  animation: orbFloat 11s ease-in-out infinite reverse;
-  filter: blur(50px);
-}
-
+/* ── Floating orbs ── */
 @keyframes orbFloat {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  33%       { transform: translateY(-18px) scale(1.04); }
-  66%       { transform: translateY(10px) scale(0.97); }
+  0%,100% { transform: translateY(0)   scale(1);    }
+  33%     { transform: translateY(-20px) scale(1.04); }
+  66%     { transform: translateY(12px)  scale(0.97); }
 }
-
-/* Fade-in animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.5s ease forwards;
-}
+.orb { animation: orbFloat 9s ease-in-out infinite; filter: blur(80px); pointer-events: none; }
+.orb-reverse { animation: orbFloat 12s ease-in-out infinite reverse; filter: blur(100px); pointer-events: none; }

@@ -1,90 +1,123 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { BrainCircuit, Database, Bot, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const skills = [
+const CATEGORIES = [
   {
-    category: "Machine Learning",
-    icon: <BrainCircuit size={18} className="text-accent" />,
-    items: [
-      "scikit-learn", "XGBoost", "LightGBM", "SHAP",
-      "Optuna", "imbalanced-learn", "Feature Engineering", "Model Evaluation",
-    ],
+    title: 'Machine Learning',
+    icon: '🧠',
+    skills: ['XGBoost', 'LightGBM', 'scikit-learn', 'CatBoost', 'SHAP', 'Optuna'],
   },
   {
-    category: "Deep Learning",
-    icon: <Database size={18} className="text-accent" />,
-    items: [
-      "PyTorch", "torchvision", "CNN Architectures", "Transfer Learning",
-      "Data Augmentation", "Training Loops", "Hyperparameter Tuning", "Google Colab",
-    ],
+    title: 'Deep Learning',
+    icon: '⚡',
+    skills: ['PyTorch', 'torchvision', 'Custom CNNs', 'Transfer Learning', 'Hugging Face'],
   },
   {
-    category: "AI Agents & LLMs",
-    icon: <Bot size={18} className="text-accent" />,
-    items: [
-      "Ollama", "Qwen / Local LLMs", "ReAct Loop", "Tool Calling",
-      "Google ADK", "Prompt Engineering",
-    ],
+    title: 'LLM & Agents',
+    icon: '🤖',
+    skills: ['Ollama', 'LangChain', 'RAG Pipelines', 'Prompt Engineering', 'Tool Calling'],
   },
   {
-    category: "Data & Backend",
-    icon: <Globe size={18} className="text-accent" />,
-    items: [
-      "Python", "Pandas / NumPy", "FastAPI", "Django",
-      "REST API", "SQL", "Next.js", "Git & GitHub",
-    ],
+    title: 'Data Engineering',
+    icon: '🔧',
+    skills: ['Pandas', 'NumPy', 'Polars', 'SQLite', 'Feature Engineering', 'ETL Pipelines'],
+  },
+  {
+    title: 'MLOps & Deployment',
+    icon: '🚀',
+    skills: ['FastAPI', 'Docker', 'Git / GitHub', 'CI/CD', 'Jupyter', 'Weights & Biases'],
+  },
+  {
+    title: 'Visualization & BI',
+    icon: '📊',
+    skills: ['Matplotlib', 'Seaborn', 'Plotly', 'Streamlit', 'Power BI Basics'],
   },
 ];
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const itemAnim = {
+  hidden: { opacity: 0, y: 20 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+};
+
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 px-6 md:px-12 max-w-5xl mx-auto border-t border-border/50">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold tracking-tight mb-16 text-foreground">
-          Technical Skills
-        </h2>
+    <section id="skills" className="py-28 bg-[#0A0A0A]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section label */}
+        <motion.p
+          initial={{ opacity: 0, x: -12 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
+        >
+          02. Skills
+        </motion.p>
 
-        <div className="grid md:grid-cols-2 gap-5">
-          {skills.map((group, index) => (
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl sm:text-5xl font-bold font-display mb-16"
+        >
+          Technical Stack
+        </motion.h2>
+
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          {CATEGORIES.map((cat) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="p-6 rounded-xl border border-border bg-muted/20 hover:border-accent/30 hover:bg-muted/40 transition-all duration-300 card-glow"
+              key={cat.title}
+              variants={itemAnim}
+              className="group relative rounded-xl border border-white/5 bg-[#111111] p-6 overflow-hidden transition-all duration-300 hover:-translate-y-1"
+              style={{ cursor: 'default' }}
             >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="p-2 bg-background rounded-lg border border-border">
-                  {group.icon}
-                </div>
-                <h3 className="text-sm font-semibold text-foreground tracking-tight">
-                  {group.category}
-                </h3>
-              </div>
+              {/* Sweep border bottom on hover */}
+              <span
+                className="absolute bottom-0 left-0 h-[2px] w-0 bg-amber-400 group-hover:w-full transition-all duration-500 rounded-full"
+              />
+              {/* Gradient overlay on hover */}
+              <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(245,158,11,0.04) 0%, transparent 60%)',
+                }}
+              />
 
-              {/* Tag/chip style */}
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((skill, i) => (
-                  <span
-                    key={i}
-                    className="px-3 py-1.5 text-xs font-mono text-muted-foreground bg-background border border-border rounded-full hover:border-accent/50 hover:text-accent transition-all duration-200 cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-2xl">{cat.icon}</span>
+                  <h3 className="text-white font-semibold font-display">{cat.title}</h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-2.5 py-1 rounded-md text-xs font-mono text-slate-300 bg-white/5 border border-white/5 group-hover:border-amber-400/15 transition-colors duration-300"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }

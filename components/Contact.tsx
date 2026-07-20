@@ -1,241 +1,219 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react";
-import { Github, Linkedin, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Github, Linkedin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 
-type FormState = "idle" | "loading" | "success" | "error";
-
-interface FormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}
+type FormState = 'idle' | 'loading' | 'success' | 'error';
 
 export default function Contact() {
-  const [form, setForm] = useState<FormData>({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState<FormState>("idle");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [state, setState] = useState<FormState>('idle');
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
-    setErrorMsg("");
-
+    setState('loading');
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? "",
-          name: form.name,
-          email: form.email,
-          subject: form.subject || `Portfolio contact from ${form.name}`,
-          message: form.message,
-          from_name: "Portfolio Contact Form",
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? 'YOUR_KEY_HERE',
+          ...form,
         }),
       });
-
-      const data = await res.json();
-
-      if (data.success) {
-        setStatus("success");
-        setForm({ name: "", email: "", subject: "", message: "" });
+      if (res.ok) {
+        setState('success');
+        setForm({ name: '', email: '', message: '' });
       } else {
-        throw new Error(data.message || "Submission failed");
+        setState('error');
       }
-    } catch (err) {
-      setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } catch {
+      setState('error');
     }
   };
 
-  const inputClass =
-    "w-full bg-muted/30 border border-border rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-all duration-200";
-
   return (
-    <section id="contact" className="py-24 px-6 md:px-12 max-w-5xl mx-auto border-t border-border/50">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold tracking-tight mb-3 text-foreground">
+    <section id="contact" className="py-28 bg-[#0A0A0A]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section label */}
+        <motion.p
+          initial={{ opacity: 0, x: -12 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
+        >
+          04. Contact
+        </motion.p>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl sm:text-5xl font-bold font-display mb-16"
+        >
           Get In Touch
-        </h2>
-        <p className="text-muted-foreground mb-12 max-w-xl">
-          I&apos;m currently open to new opportunities. Whether you have a project, a question, or just want to connect — my inbox is open.
-        </p>
+        </motion.h2>
 
-        <div className="grid md:grid-cols-5 gap-12">
-          {/* Form */}
-          <div className="md:col-span-3">
-            {status === "success" ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center gap-4 py-16 px-8 border border-accent/30 rounded-xl bg-accent/5 text-center"
-              >
-                <CheckCircle size={48} className="text-accent" />
-                <h3 className="text-xl font-semibold text-foreground">Message sent!</h3>
-                <p className="text-muted-foreground text-sm">
-                  Thanks for reaching out. I&apos;ll get back to you as soon as possible.
-                </p>
-                <button
-                  onClick={() => setStatus("idle")}
-                  className="mt-2 text-xs font-mono text-accent hover:underline"
-                >
-                  Send another message
-                </button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label htmlFor="name" className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                      Name <span className="text-accent">*</span>
-                    </label>
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      required
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="Romaric Vossanou"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label htmlFor="email" className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                      Email <span className="text-accent">*</span>
-                    </label>
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="hello@example.com"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="subject" className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                    Subject
-                  </label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    value={form.subject}
-                    onChange={handleChange}
-                    placeholder="Internship opportunity / Collaboration / Question"
-                    className={inputClass}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="message" className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                    Message <span className="text-accent">*</span>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={6}
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="Tell me about your project, opportunity, or question..."
-                    className={`${inputClass} resize-none`}
-                  />
-                </div>
-
-                {status === "error" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 text-red-400 text-sm p-3 bg-red-400/10 border border-red-400/20 rounded-lg"
-                  >
-                    <AlertCircle size={16} className="shrink-0" />
-                    {errorMsg}
-                  </motion.div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status === "loading"}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 bg-accent text-background hover:bg-accent/90 disabled:opacity-60 disabled:cursor-not-allowed font-semibold text-sm rounded-lg transition-all duration-200 shadow-lg shadow-accent/20"
-                >
-                  {status === "loading" ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Sending…
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Sidebar info */}
-          <div className="md:col-span-2 space-y-8 pt-1">
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground">Direct email</h3>
-              <a
-                href="mailto:vossanouromaric@gmail.com"
-                className="block text-sm text-muted-foreground hover:text-accent transition-colors font-mono break-all"
-              >
-                vossanouromaric@gmail.com
-              </a>
+        <div className="grid lg:grid-cols-5 gap-12 items-start">
+          {/* ── Sidebar ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-2 flex flex-col gap-8"
+          >
+            {/* Availability badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 self-start">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+              </span>
+              <span className="text-emerald-400 text-sm font-medium">Currently available</span>
             </div>
 
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-foreground">Find me on</h3>
-              <div className="flex flex-col gap-3">
-                <a
-                  href="https://github.com/RYV8"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors group"
-                >
-                  <Github size={18} className="group-hover:scale-110 transition-transform" />
-                  <span>github.com/RYV8</span>
-                </a>
-                <a
-                  href="https://linkedin.com/in/romaric-vossanou"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-sm text-muted-foreground hover:text-accent transition-colors group"
-                >
-                  <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
-                  <span>linkedin.com/in/romaric-vossanou</span>
-                </a>
+            <p className="text-slate-400 text-base leading-relaxed">
+              I'm actively looking for data science internships and ML engineering roles. If
+              you have a project or position that could be a fit, I'd love to hear from you.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              <a
+                href="mailto:vossanouromaric@gmail.com"
+                className="flex items-center gap-3 text-slate-400 hover:text-amber-400 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center group-hover:border-amber-400/30 transition-colors">
+                  <Mail size={15} />
+                </div>
+                <span className="text-sm">vossanouromaric@gmail.com</span>
+              </a>
+              <a
+                href="https://github.com/RYV8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-slate-400 hover:text-amber-400 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center group-hover:border-amber-400/30 transition-colors">
+                  <Github size={15} />
+                </div>
+                <span className="text-sm">github.com/RYV8</span>
+              </a>
+              <a
+                href="https://linkedin.com/in/romaric-vossanou"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-slate-400 hover:text-amber-400 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center group-hover:border-amber-400/30 transition-colors">
+                  <Linkedin size={15} />
+                </div>
+                <span className="text-sm">linkedin.com/in/romaric-vossanou</span>
+              </a>
+            </div>
+          </motion.div>
+
+          {/* ── Form ── */}
+          <motion.form
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="lg:col-span-3 bg-[#111111] rounded-2xl border border-white/5 p-8 flex flex-col gap-6"
+          >
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="name" className="text-slate-400 text-xs font-mono uppercase tracking-wider">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className="bg-[#1A1A1A] border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="email" className="text-slate-400 text-xs font-mono uppercase tracking-wider">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className="bg-[#1A1A1A] border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all"
+                />
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border border-accent/20 bg-accent/5">
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="text-accent font-medium">Currently available</span> for Data Science &amp; ML Engineering internships. Response time: within 24h.
-              </p>
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="message" className="text-slate-400 text-xs font-mono uppercase tracking-wider">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={5}
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Tell me about your project or opportunity..."
+                className="bg-[#1A1A1A] border border-white/5 rounded-lg px-4 py-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all resize-none"
+              />
             </div>
-          </div>
+
+            {/* Success / Error feedback */}
+            {state === 'success' && (
+              <div className="flex items-center gap-2 text-emerald-400 text-sm bg-emerald-500/5 border border-emerald-500/20 rounded-lg px-4 py-3">
+                <CheckCircle size={15} />
+                Message sent! I'll get back to you soon.
+              </div>
+            )}
+            {state === 'error' && (
+              <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/5 border border-red-500/20 rounded-lg px-4 py-3">
+                <AlertCircle size={15} />
+                Something went wrong. Please try emailing me directly.
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={state === 'loading'}
+              className="self-start inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-amber-400 text-black font-semibold text-sm hover:bg-amber-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-amber-400/25 hover:-translate-y-0.5"
+            >
+              {state === 'loading' ? (
+                <>
+                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                  Sending…
+                </>
+              ) : (
+                <>
+                  <Send size={14} />
+                  Send Message
+                </>
+              )}
+            </button>
+          </motion.form>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

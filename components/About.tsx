@@ -1,117 +1,158 @@
-"use client";
+'use client';
 
-import { motion } from "motion/react";
-import { Download, Github, Mail, Linkedin, BrainCircuit, Bot, Layers } from "lucide-react";
+import { motion } from 'framer-motion';
+import { MapPin, Mail, Github } from 'lucide-react';
 
-const highlights = [
-  {
-    icon: <BrainCircuit size={22} />,
-    title: "ML & Data Science",
-    desc: "End-to-end pipelines: feature engineering, model training, explainability with SHAP, and business scoring.",
-  },
-  {
-    icon: <Bot size={22} />,
-    title: "AI Agents & LLMs",
-    desc: "Building autonomous agents with ReAct loops, local LLMs (Ollama), and tool-calling architectures.",
-  },
-  {
-    icon: <Layers size={22} />,
-    title: "Deep Learning",
-    desc: "Custom CNNs with PyTorch, data augmentation pipelines, and automated tuning with Optuna.",
-  },
+const STATS = [
+  { value: '5+',  label: 'Projects on GitHub' },
+  { value: '3',   label: 'ML Pipelines Built'  },
+  { value: '4',   label: 'Tech Stacks Mastered' },
+  { value: '1',   label: 'Year of Deep Focus'   },
 ];
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' as const } },
+};
 
 export default function About() {
   return (
-    <section id="about" className="border-t border-border/50 py-24 px-6 md:px-12 max-w-5xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      >
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-12 text-foreground">
-          About Me
-        </h2>
+    <section id="about" className="py-28 depth-elevated">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Section label */}
+        <motion.p
+          initial={{ opacity: 0, x: -12 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="font-mono text-amber-400 text-xs tracking-widest uppercase mb-3"
+        >
+          01. About me
+        </motion.p>
 
-        <div className="grid md:grid-cols-5 gap-12 items-start">
-          {/* Text */}
-          <div className="md:col-span-3 space-y-5 text-muted-foreground leading-relaxed">
-            <p>
-              I&apos;m <span className="text-foreground font-medium">Romaric Yemalin VOSSANOU</span>, 
-              a Mathematics and Computer Science graduate specializing in Machine Learning and AI systems. 
-              I build end-to-end ML pipelines — from raw data and feature engineering to model training, 
-              explainability, and deployment.
-            </p>
-            <p>
-              Beyond classical ML, I&apos;m deeply interested in <span className="text-foreground font-medium">AI agents</span> — 
-              systems where LLMs don&apos;t just generate text but autonomously plan and execute real-world actions. 
-              My Desktop Agent project is a hands-on exploration of that frontier.
-            </p>
-            <p>
-              I&apos;m currently looking for a <span className="text-foreground font-medium">Data Science or ML Engineering internship</span> where 
-              I can contribute to impactful projects and deepen my production ML expertise.
-            </p>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl sm:text-5xl font-bold font-display mb-16"
+        >
+          Who I Am
+        </motion.h2>
 
-            {/* CTA links */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <a
-                href="/cv.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-accent text-accent hover:bg-accent hover:text-background font-mono text-sm rounded-md transition-all duration-200"
+        {/* Content grid */}
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+
+          {/* ── Avatar + links ── */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center lg:items-start gap-8"
+          >
+            {/* Avatar */}
+            <div className="relative group">
+              <div
+                className="w-56 h-56 rounded-full flex items-center justify-center text-5xl font-bold font-display text-black select-none transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(245,158,11,0.45)]"
+                style={{
+                  background: 'conic-gradient(from 135deg, #F59E0B 0%, #FCD34D 35%, #0A0A0A 50%, #111111 65%, #F59E0B 100%)',
+                }}
               >
-                <Download size={16} />
-                Download CV
+                <span className="bg-clip-text"
+                  style={{
+                    background: 'linear-gradient(135deg,#F59E0B,#FCD34D)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  RYV
+                </span>
+              </div>
+              <div className="absolute -inset-2 rounded-full border border-amber-400/20 group-hover:border-amber-400/50 transition-colors duration-500 pointer-events-none" />
+            </div>
+
+            {/* Contact links */}
+            <div className="flex flex-col gap-3">
+              <a
+                href="mailto:vossanouromaric@gmail.com"
+                className="inline-flex items-center gap-2 text-slate-400 text-sm hover:text-amber-400 transition-colors"
+              >
+                <Mail size={14} />
+                vossanouromaric@gmail.com
               </a>
               <a
                 href="https://github.com/RYV8"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted-foreground hover:border-accent hover:text-accent font-mono text-sm rounded-md transition-all duration-200"
+                className="inline-flex items-center gap-2 text-slate-400 text-sm hover:text-amber-400 transition-colors"
               >
-                <Github size={16} />
-                GitHub
+                <Github size={14} />
+                github.com/RYV8
               </a>
-              <a
-                href="mailto:vossanouromaric@gmail.com"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted-foreground hover:border-accent hover:text-accent font-mono text-sm rounded-md transition-all duration-200"
-              >
-                <Mail size={16} />
-                Email
-              </a>
+              <p className="inline-flex items-center gap-2 text-slate-400 text-sm">
+                <MapPin size={14} />
+                West Africa · Open to relocation
+              </p>
             </div>
-          </div>
 
-          {/* Highlight cards */}
-          <div className="md:col-span-2 grid gap-4">
-            {highlights.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.12, duration: 0.5 }}
-                className="p-5 border border-border bg-muted/20 hover:border-accent/40 hover:bg-muted/40 transition-all duration-300 rounded-lg"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-background border border-border text-accent rounded-md shrink-0">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground text-sm mb-1">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
+            {/* Download CV */}
+            <a
+              href="/cv.pdf"
+              download
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-amber-400/30 text-amber-400 text-sm font-medium hover:bg-amber-400/10 transition-all duration-200"
+            >
+              Download CV
+            </a>
+          </motion.div>
+
+          {/* ── Bio + stats ── */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="flex flex-col gap-6"
+          >
+            <motion.p variants={item} className="text-slate-300 text-base leading-relaxed">
+              I'm <span className="text-white font-semibold">Romaric Yemalin VOSSANOU</span>, an
+              ML Engineer and AI systems builder. I design and implement full machine learning
+              pipelines — from data ingestion and feature engineering to model training, evaluation,
+              and production deployment. My focus is on making intelligent systems that actually
+              work at scale.
+            </motion.p>
+
+            <motion.p variants={item} className="text-slate-400 text-base leading-relaxed">
+              I work across the stack: classical ML with XGBoost &amp; scikit-learn, deep learning
+              with PyTorch, LLM-powered agents with Ollama &amp; LangChain, and API services with
+              FastAPI. I'm equally comfortable iterating in a Jupyter notebook and shipping
+              production code on a containerized backend.
+            </motion.p>
+
+            {/* 4 StatCards */}
+            <motion.div
+              variants={item}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4"
+            >
+              {STATS.map((s) => (
+                <div
+                  key={s.label}
+                  className="depth-surface rounded-xl p-4 border border-white/5 text-center hover:border-amber-400/20 transition-colors duration-300 card-hover"
+                >
+                  <p className="text-3xl font-bold font-display text-amber-400">{s.value}</p>
+                  <p className="text-slate-400 text-xs mt-1 leading-snug">{s.label}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
