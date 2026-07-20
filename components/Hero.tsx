@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowDown, Download, Github } from 'lucide-react';
 import NetworkBackground from './NetworkBackground';
+import { Logo } from './Logo';
 
 const ROLES = [
   'ML Engineer',
@@ -40,15 +41,20 @@ export default function Hero() {
           transition={{ duration: 0.7, ease: 'easeOut' as const }}
           className="flex flex-col gap-7"
         >
-          {/* SYSTEM.INIT() badge */}
+          {/* Logo + SYSTEM.INIT() badge */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.15 }}
-            className="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/5 text-amber-400"
+            className="flex items-center gap-4 self-start"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="font-mono text-xs tracking-widest uppercase">SYSTEM.INIT()</span>
+            <div className="text-amber-400">
+              <Logo size={52} glow />
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/5 text-amber-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+              <span className="font-mono text-xs tracking-widest uppercase">SYSTEM.INIT()</span>
+            </div>
           </motion.div>
 
           {/* Name */}

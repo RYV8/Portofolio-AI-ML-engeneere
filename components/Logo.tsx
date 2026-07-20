@@ -1,4 +1,4 @@
-export function Logo({ size = 32, className = '' }: { size?: number; className?: string }) {
+export function Logo({ size = 32, className = '', glow = false }: { size?: number; className?: string; glow?: boolean }) {
   return (
     <svg
       viewBox="0 0 100 100"
@@ -8,6 +8,7 @@ export function Logo({ size = 32, className = '' }: { size?: number; className?:
       xmlns="http://www.w3.org/2000/svg"
       className={className}
       aria-label="RYV Logo"
+      style={glow ? { filter: 'drop-shadow(0 0 6px rgba(245,158,11,0.8)) drop-shadow(0 0 12px rgba(245,158,11,0.4))' } : undefined}
     >
       {/* Outer hexagon — pointy top */}
       <polygon

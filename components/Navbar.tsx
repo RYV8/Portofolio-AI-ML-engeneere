@@ -34,10 +34,13 @@ export default function Navbar() {
         {/* Logo */}
         <a
           href="#hero"
-          className="text-amber-400 hover:text-amber-300 transition-colors"
+          className="flex items-center gap-2.5 group text-amber-400 hover:text-amber-300 transition-colors"
           aria-label="Home"
         >
-          <Logo size={36} />
+          <Logo size={36} glow />
+          <span className="font-mono text-xs font-bold tracking-widest uppercase hidden sm:inline">
+            RYV8
+          </span>
         </a>
 
         {/* Desktop links */}
@@ -79,7 +82,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.25, ease: 'easeInOut' as const }}
             className="md:hidden overflow-hidden bg-[#0A0A0A] border-b border-white/5"
           >
             <div className="flex flex-col px-6 pb-6 pt-2 gap-4">
