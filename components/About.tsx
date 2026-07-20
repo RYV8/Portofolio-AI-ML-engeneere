@@ -23,7 +23,7 @@ const highlights = [
 
 export default function About() {
   return (
-    <section id="about" className="w-full border-t border-border/50 py-24 px-6 md:px-12 max-w-5xl mx-auto">
+    <section id="about" className="border-t border-border/50 py-24 px-6 md:px-12 max-w-5xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

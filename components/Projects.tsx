@@ -101,7 +101,7 @@ export default function Projects() {
                   <p className="text-muted-foreground text-sm font-mono">{project.tagline}</p>
                 </div>
 
-                <div className="p-5 rounded-lg bg-muted border border-border text-muted-foreground shadow-md">
+                <div className="p-5 rounded-xl bg-muted border border-border text-muted-foreground shadow-md group-hover:border-accent/20 transition-colors duration-300">
                   <p className="text-sm leading-relaxed mb-4">{project.description}</p>
                   <ul className="space-y-1.5 text-sm">
                     {project.highlights.map((h, i) => (
@@ -149,7 +149,7 @@ export default function Projects() {
 
               {/* Visual panel */}
               <div
-                className={`hidden md:flex md:col-span-5 h-full min-h-[260px] items-center justify-center rounded-lg bg-muted/30 border border-border/50 group-hover:border-accent/40 transition-all duration-300 overflow-hidden ${index % 2 !== 0 ? 'md:order-1' : ''}`}
+                className={`hidden md:flex md:col-span-5 h-full min-h-[260px] items-center justify-center rounded-xl bg-muted/20 border border-border/40 group-hover:border-accent/40 group-hover:bg-muted/40 transition-all duration-300 overflow-hidden card-glow ${index % 2 !== 0 ? 'md:order-1' : ''}`}
               >
                 <div className="flex flex-col items-center gap-4 p-8 opacity-40 group-hover:opacity-70 transition-opacity">
                   <FolderGit2 size={48} className="text-accent" />

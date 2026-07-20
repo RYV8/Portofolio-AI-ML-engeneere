@@ -6,56 +6,34 @@ import { BrainCircuit, Database, Bot, Globe } from 'lucide-react';
 const skills = [
   {
     category: "Machine Learning",
-    icon: <BrainCircuit size={20} className="text-accent" />,
+    icon: <BrainCircuit size={18} className="text-accent" />,
     items: [
-      "scikit-learn",
-      "XGBoost",
-      "LightGBM",
-      "SHAP",
-      "Optuna",
-      "SMOTE / imbalanced-learn",
-      "Feature Engineering",
-      "Model Evaluation & Metrics",
+      "scikit-learn", "XGBoost", "LightGBM", "SHAP",
+      "Optuna", "imbalanced-learn", "Feature Engineering", "Model Evaluation",
     ],
   },
   {
     category: "Deep Learning",
-    icon: <Database size={20} className="text-accent" />,
+    icon: <Database size={18} className="text-accent" />,
     items: [
-      "PyTorch",
-      "torchvision",
-      "CNN Architectures",
-      "Transfer Learning",
-      "Data Augmentation",
-      "Training & Validation Loops",
-      "Hyperparameter Tuning",
-      "Google Colab / GPU",
+      "PyTorch", "torchvision", "CNN Architectures", "Transfer Learning",
+      "Data Augmentation", "Training Loops", "Hyperparameter Tuning", "Google Colab",
     ],
   },
   {
     category: "AI Agents & LLMs",
-    icon: <Bot size={20} className="text-accent" />,
+    icon: <Bot size={18} className="text-accent" />,
     items: [
-      "Ollama",
-      "Qwen / LLM local inference",
-      "ReAct Loop (Thought → Action → Observation)",
-      "Tool Calling & JSON agents",
-      "Google ADK",
-      "Prompt Engineering",
+      "Ollama", "Qwen / Local LLMs", "ReAct Loop", "Tool Calling",
+      "Google ADK", "Prompt Engineering",
     ],
   },
   {
     category: "Data & Backend",
-    icon: <Globe size={20} className="text-accent" />,
+    icon: <Globe size={18} className="text-accent" />,
     items: [
-      "Python",
-      "Pandas / NumPy",
-      "FastAPI",
-      "Django",
-      "REST API Design",
-      "SQL",
-      "Next.js / TypeScript",
-      "Git & GitHub",
+      "Python", "Pandas / NumPy", "FastAPI", "Django",
+      "REST API", "SQL", "Next.js", "Git & GitHub",
     ],
   },
 ];
@@ -69,12 +47,12 @@ export default function Skills() {
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5 }}
       >
-        <p className="font-mono text-accent text-sm mb-3">02. What I work with</p>
+        <p className="font-mono text-accent text-sm mb-2">02. What I work with</p>
         <h2 className="text-3xl font-bold tracking-tight mb-16 text-foreground">
           Technical Skills
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           {skills.map((group, index) => (
             <motion.div
               key={index}
@@ -82,25 +60,28 @@ export default function Skills() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="p-6 rounded-lg border border-border bg-muted/20 hover:bg-muted/40 hover:border-accent/30 transition-all duration-300"
+              className="p-6 rounded-xl border border-border bg-muted/20 hover:border-accent/30 hover:bg-muted/40 transition-all duration-300 card-glow"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-background rounded-md border border-border">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="p-2 bg-background rounded-lg border border-border">
                   {group.icon}
                 </div>
-                <h3 className="text-base font-semibold text-foreground tracking-tight">
+                <h3 className="text-sm font-semibold text-foreground tracking-tight">
                   {group.category}
                 </h3>
               </div>
 
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {/* Tag/chip style */}
+              <div className="flex flex-wrap gap-2">
                 {group.items.map((skill, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent/60 shrink-0" />
+                  <span
+                    key={i}
+                    className="px-3 py-1.5 text-xs font-mono text-muted-foreground bg-background border border-border rounded-full hover:border-accent/50 hover:text-accent transition-all duration-200 cursor-default"
+                  >
                     {skill}
-                  </li>
+                  </span>
                 ))}
-              </ul>
+              </div>
             </motion.div>
           ))}
         </div>
